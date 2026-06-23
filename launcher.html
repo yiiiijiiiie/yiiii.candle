@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>餘依香所</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+
+  <!-- 讓加入主畫面後以「獨立 App」模式全螢幕開啟 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="餘依香所">
+  <meta name="theme-color" content="#7b7764">
+
+  <!-- ★ 主畫面圖示（iOS 讀這個）。指向你的 logo，多個尺寸都指同一張即可 ★ -->
+  <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s180">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s180">
+  <link rel="apple-touch-icon" sizes="167x167" href="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s167">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s152">
+  <link rel="icon" href="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s180">
+
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #efeae3; overflow: hidden; }
+    /* App 內容（你的 Apps Script 網頁）全螢幕嵌入 */
+    #appFrame {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      border: 0;
+      /* 留出瀏海/底部安全區 */
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      box-sizing: border-box;
+      background: #efeae3;
+    }
+    /* 載入時的品牌啟動畫面 */
+    #splash {
+      position: fixed; inset: 0; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #efeae3;
+      transition: opacity 0.4s ease;
+    }
+    #splash img { width: 120px; height: 120px; object-fit: contain; }
+    #splash .name { margin-top: 16px; font-size: 18px; color: #7b7764; font-weight: 700; letter-spacing: 2px; }
+    #splash .hint { margin-top: 6px; font-size: 13px; color: #b0a594; }
+    #splash.hide { opacity: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div id="splash">
+    <img src="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s240" alt="餘依香所">
+    <div class="name">餘依香所</div>
+    <div class="hint">載入中…</div>
+  </div>
+
+  <!-- ★★★ 把下面 src 換成你的 Apps Script 網頁網址（結尾是 /exec 的那個）★★★ -->
+  <iframe
+    id="appFrame"
+    src="https://script.google.com/macros/s/AKfycbw0rnM8p4W12a96-dxoyyPZ6nA3gDPtG0EV6JCr2chKAbyvZfzT2fnV2Jt2fQjj6Eqg/exec"
+    allow="clipboard-read; clipboard-write"
+    onload="document.getElementById('splash').classList.add('hide')">
+  </iframe>
+
+  <script>
+    // 保險：就算 onload 沒觸發，3.5 秒後也把啟動畫面淡出
+    setTimeout(function(){ var s=document.getElementById('splash'); if(s) s.classList.add('hide'); }, 3500);
+  </script>
+</body>
+</html>
