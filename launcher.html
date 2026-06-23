@@ -5,14 +5,14 @@
   <title>餘依香所</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 
-  <!-- 加入主畫面後的 App 設定 -->
+  <!-- 讓加入主畫面後以「獨立 App」模式全螢幕開啟 -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="餘依香所">
   <meta name="theme-color" content="#7b7764">
 
-  <!-- 主畫面圖示（iOS 讀這個），指向你的 logo -->
+  <!-- ★ 主畫面圖示（iOS 讀這個）。指向你的 logo，多個尺寸都指同一張即可 ★ -->
   <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s180">
   <link rel="apple-touch-icon" sizes="180x180" href="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s180">
   <link rel="apple-touch-icon" sizes="167x167" href="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s167">
@@ -20,54 +20,48 @@
   <link rel="icon" href="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s180">
 
   <style>
-    html, body {
-      margin: 0; padding: 0; height: 100%;
-      background: #efeae3;
-      font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
-    }
-    .wrap {
+    html, body { margin: 0; padding: 0; height: 100%; background: #efeae3; overflow: hidden; }
+    /* App 內容（你的 Apps Script 網頁）全螢幕嵌入 */
+    #appFrame {
       position: fixed; inset: 0;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      padding: env(safe-area-inset-top) 24px env(safe-area-inset-bottom);
+      width: 100%; height: 100%;
+      border: 0;
+      /* 留出瀏海/底部安全區 */
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
       box-sizing: border-box;
+      background: #efeae3;
     }
-    .logo { width: 130px; height: 130px; object-fit: contain; }
-    .name { margin-top: 18px; font-size: 20px; color: #7b7764; font-weight: 700; letter-spacing: 3px; }
-    .desc { margin-top: 8px; font-size: 13px; color: #b0a594; }
-    .enter-btn {
-      margin-top: 28px;
-      display: inline-block;
-      background: #7b7764; color: #fff;
-      font-size: 17px; font-weight: 700;
-      padding: 15px 44px;
-      border: none; border-radius: 14px;
-      text-decoration: none;
-      box-shadow: 0 4px 16px rgba(123,119,100,0.3);
+    /* 載入時的品牌啟動畫面 */
+    #splash {
+      position: fixed; inset: 0; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #efeae3;
+      transition: opacity 0.4s ease;
     }
-    .enter-btn:active { transform: scale(0.97); }
-    .note { margin-top: 22px; font-size: 12px; color: #c4baac; line-height: 1.6; max-width: 280px; }
+    #splash img { width: 120px; height: 120px; object-fit: contain; }
+    #splash .name { margin-top: 16px; font-size: 18px; color: #7b7764; font-weight: 700; letter-spacing: 2px; }
+    #splash .hint { margin-top: 6px; font-size: 13px; color: #b0a594; }
+    #splash.hide { opacity: 0; pointer-events: none; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <img class="logo" src="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s260" alt="餘依香所">
+  <div id="splash">
+    <img src="https://lh3.googleusercontent.com/d/1IoS9P7XyeD4bvVIwmaCazTzfeXzHse6Y=s240" alt="餘依香所">
     <div class="name">餘依香所</div>
-    <div class="desc">材料、庫存與營運管理系統</div>
-
-    <!-- 點一下跳轉到你的 App（Google 登入會正常出現）-->
-    <a class="enter-btn" href="https://script.google.com/macros/s/AKfycbw0rnM8p4W12a96-dxoyyPZ6nA3gDPtG0EV6JCr2chKAbyvZfzT2fnV2Jt2fQjj6Eqg/exec">進入系統</a>
-
-    <div class="note">首次進入需以 Google 帳號登入驗證，登入後即可使用。</div>
+    <div class="hint">載入中…</div>
   </div>
 
+  <!-- ★★★ 把下面 src 換成你的 Apps Script 網頁網址（結尾是 /exec 的那個）★★★ -->
+  <iframe
+    id="appFrame"
+    src="https://script.google.com/macros/s/AKfycbw0rnM8p4W12a96-dxoyyPZ6nA3gDPtG0EV6JCr2chKAbyvZfzT2fnV2Jt2fQjj6Eqg/exec"
+    allow="clipboard-read; clipboard-write"
+    onload="document.getElementById('splash').classList.add('hide')">
+  </iframe>
+
   <script>
-    // 自動跳轉（1.2 秒後），讓使用者先看到品牌畫面。
-    // 若想停在這頁、改由使用者自己按「進入系統」，把下面整段 setTimeout 刪掉即可。
-    setTimeout(function(){
-      window.location.href = "https://script.google.com/macros/s/AKfycbw0rnM8p4W12a96-dxoyyPZ6nA3gDPtG0EV6JCr2chKAbyvZfzT2fnV2Jt2fQjj6Eqg/exec";
-    }, 1200);
+    // 保險：就算 onload 沒觸發，3.5 秒後也把啟動畫面淡出
+    setTimeout(function(){ var s=document.getElementById('splash'); if(s) s.classList.add('hide'); }, 3500);
   </script>
 </body>
 </html>
